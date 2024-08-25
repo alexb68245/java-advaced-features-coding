@@ -1,41 +1,46 @@
 public class Basket {
-    private int items;
+
+    private static int countOfItems = 0;
     private static final int MAX_ITEMS = 3;
 
-    public Basket() {
-        this.items = 0;
+    public void addToBasket() throws BasketFullException{
+        if (countOfItems >= MAX_ITEMS) {
+            throw new BasketFullException("Cannot add more than " + MAX_ITEMS + " items");
+        }else {
+            countOfItems++;
+            System.out.println("item added to the basket");
+        }
+
     }
 
-    public void addToBasket() {
-        if (items >= MAX_ITEMS) {
-            throw new BasketFullException("The basket is full.");
+    public void removeFromBasket() throws BasketEmptyException {
+        if(countOfItems <= 0) {
+            throw new BasketEmptyException("Cannot remove items");
+        }else {
+            countOfItems--;
+            System.out.println("item removed from the basket");
         }
-        items++;
-        System.out.println("Item added. Current number of items: " + items);
-    }
 
-    public void removeFromBasket() {
-        if (items <= 0) {
-            throw new BasketEmptyException("Cannot remove items, the basket is empty.");
-        }
-        items--;
-        System.out.println("Item removed. Current number of items: " + items);
     }
 
     public static void main(String[] args) {
         Basket basket = new Basket();
-
         try {
             basket.addToBasket();
             basket.addToBasket();
-
-        } catch (BasketFullException e) {
+            basket.addToBasket();
+            basket.addToBasket();
+        }catch (BasketFullException e) {
+            System.out.println(countOfItems);
             System.out.println(e.getMessage());
         }
 
+
         try {
             basket.removeFromBasket();
-
+            basket.removeFromBasket();
+            basket.removeFromBasket();
+            basket.removeFromBasket();
         } catch (BasketEmptyException e) {
             System.out.println(e.getMessage());
         }
